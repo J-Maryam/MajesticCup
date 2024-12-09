@@ -1,4 +1,4 @@
-package org.youcode.majesticcup.models;
+package org.youcode.majesticcup.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

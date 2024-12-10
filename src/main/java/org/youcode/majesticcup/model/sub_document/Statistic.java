@@ -10,7 +10,7 @@ import org.bson.types.ObjectId;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Static {
+public class Statistic {
     private ObjectId playerId;
     private int goals;
     private int assists;

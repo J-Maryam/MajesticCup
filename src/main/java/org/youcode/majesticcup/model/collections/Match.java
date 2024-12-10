@@ -7,20 +7,19 @@ import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.youcode.majesticcup.model.sub_document.MatchResult;
 
-import java.util.List;
-
-@Document(collection = "competitions")
+@Document(collection = "matches")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Competition {
+public class Match {
     @Id
     private ObjectId id;
-    private String name;
-    private int numberOfTeams;
-    private List<ObjectId> teams;
-    private int currentRound;
-    private List<ObjectId> rounds;
+    private int round;
+    private ObjectId team1;
+    private ObjectId team2;
+    private MatchResult result;
+    private ObjectId winner;
 }

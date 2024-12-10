@@ -17,11 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Team {
-
     @Id
     private ObjectId id;
     private String name;
     private String city;
 
-    private List<Player> players;
+    private List<ObjectId> players;
 }

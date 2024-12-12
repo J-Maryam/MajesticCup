@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: MajesticCup
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: majestic_cup
+logging:
+  level:
+    org.springframework.security: TRACE
+    org.springframework.data.mongodb: DEBUG
+

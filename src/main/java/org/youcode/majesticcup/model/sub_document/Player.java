@@ -2,9 +2,9 @@ package org.youcode.majesticcup.model.sub_document;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @AllArgsConstructor
 public class Player {
     @Field("_id")
+    @Id
     private ObjectId id;
 
     @NotBlank(message = "Player's name cannot be blank.")

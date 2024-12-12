@@ -14,14 +14,10 @@ import org.youcode.majesticcup.service.TeamService;
 
 @RestController
 @RequestMapping("/api/admin/teams")
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class TeamController {
 
     private final TeamService teamService;
-
-    public TeamController(TeamService teamService) {
-        this.teamService = teamService;
-    }
 
     @PostMapping
     public ResponseEntity<TeamResponseDTO> createTeam(@RequestBody @Valid TeamRequestDTO request) {

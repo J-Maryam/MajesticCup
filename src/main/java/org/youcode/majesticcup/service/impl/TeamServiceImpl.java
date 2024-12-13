@@ -75,11 +75,19 @@ public class TeamServiceImpl implements TeamService {
         repository.save(existingTeam);
     }
 
+    @Override
     public List<TeamResponseDTO> getTeams() {
         List<Team> teams = repository.findAll();
         return teams.stream()
                 .map(mapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public TeamResponseDTO getTeamById(ObjectId teamId) {
+        Team team = repository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId));
+        return mapper.toDto(team);
     }
 
     private Team buildTeamFromDTO(TeamRequestDTO dto) {

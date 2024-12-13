@@ -5,7 +5,7 @@ import org.youcode.majesticcup.dto.match.MatchRequestDTO;
 import org.youcode.majesticcup.dto.match.MatchResponseDTO;
 import org.youcode.majesticcup.model.collections.Match;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {MatchResultMapper.class, TeamMapper.class})
 public interface MatchMapper {
     Match toEntity(MatchRequestDTO dto);
     MatchResponseDTO toDto(Match match);

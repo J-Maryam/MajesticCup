@@ -56,6 +56,14 @@ public class TeamServiceImpl implements TeamService {
         repository.delete(existingTeam);
     }
 
+    @Override
+    public void addPlayerToTeam(ObjectId teamId, Player player) {
+        Team existingTeam = repository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId));
+        existingTeam.getPlayers().add(player);
+        repository.save(existingTeam);
+    }
+
     private Team buildTeamFromDTO(TeamRequestDTO dto) {
         List<Player> players = dto.players()
                 .stream()

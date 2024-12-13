@@ -44,4 +44,10 @@ public class TeamController {
         List<TeamResponseDTO> teams = teamService.getTeams();
         return ResponseEntity.ok(teams);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TeamResponseDTO> getTeamById(@PathVariable ObjectId id) {
+        TeamResponseDTO team = teamService.getTeamById(id);
+        return ResponseEntity.ok(team);
+    }
 }

@@ -1,8 +1,10 @@
 package org.youcode.majesticcup.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
 import org.youcode.majesticcup.dto.team.TeamRequestDTO;
 import org.youcode.majesticcup.dto.team.TeamResponseDTO;
 import org.youcode.majesticcup.mapper.TeamMapper;
@@ -26,6 +28,25 @@ public class TeamServiceImpl implements TeamService {
         Team team = buildTeamFromDTO(dto);
         Team savedTeam = repository.save(team);
         return mapper.toDto(savedTeam);
+    }
+
+    @Override
+    public TeamResponseDTO updateTeam(ObjectId teamId, TeamRequestDTO dto) {
+        Team existingTeam = repository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId));
+        existingTeam.setName(dto.name());
+        existingTeam.setCity(dto.city());
+        existingTeam.setPlayers(dto.players()
+                .stream()
+                .map(player -> new Player(
+                        player.name(),
+                        player.surname(),
+                        player.position(),
+                        player.number()
+                ))
+                .toList());
+        Team updatedTeam = repository.save(existingTeam);
+        return mapper.toDto(updatedTeam);
     }
 
     private Team buildTeamFromDTO(TeamRequestDTO dto) {

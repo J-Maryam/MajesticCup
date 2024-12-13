@@ -23,7 +23,12 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamResponseDTO createTeam(TeamRequestDTO dto) {
+        Team team = buildTeamFromDTO(dto);
+        Team savedTeam = repository.save(team);
+        return mapper.toDto(savedTeam);
+    }
 
+    private Team buildTeamFromDTO(TeamRequestDTO dto) {
         List<Player> players = dto.players()
                 .stream()
                 .map(player -> new Player(
@@ -33,14 +38,10 @@ public class TeamServiceImpl implements TeamService {
                         player.number()
                 ))
                 .toList();
-
         Team team = mapper.toEntity(dto);
-        
         team.setName(dto.name());
         team.setCity(dto.city());
         team.setPlayers(players);
-
-        Team savedTeam = repository.save(team);
-        return mapper.toDto(savedTeam);
+        return team;
     }
 }

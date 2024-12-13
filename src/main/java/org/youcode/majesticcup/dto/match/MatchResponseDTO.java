@@ -1,13 +1,15 @@
 package org.youcode.majesticcup.dto.match;
 
+import org.bson.types.ObjectId;
 import org.youcode.majesticcup.dto.MatchResultDTO;
+import org.youcode.majesticcup.dto.team.TeamResponseDTO;
 
 public record MatchResponseDTO(
-        String id,
+        ObjectId id,
         int round,
-        String team1,
-        String team2,
+        TeamResponseDTO team1,
+        TeamResponseDTO team2,
         MatchResultDTO result,
-        String winner
+        TeamResponseDTO winner
 ) {}
 

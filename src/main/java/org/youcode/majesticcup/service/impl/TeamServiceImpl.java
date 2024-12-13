@@ -34,17 +34,26 @@ public class TeamServiceImpl implements TeamService {
     public TeamResponseDTO updateTeam(ObjectId teamId, TeamRequestDTO dto) {
         Team existingTeam = repository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId));
+
         existingTeam.setName(dto.name());
         existingTeam.setCity(dto.city());
-        existingTeam.setPlayers(dto.players()
+
+        List<Player> updatedPlayers = dto.players()
                 .stream()
-                .map(player -> new Player(
-                        player.name(),
-                        player.surname(),
-                        player.position(),
-                        player.number()
-                ))
-                .toList());
+                .map(playerDto -> {
+                    Player player = new Player(
+                            playerDto.name(),
+                            playerDto.surname(),
+                            playerDto.position(),
+                            playerDto.number()
+                    );
+                    player.setId(player.getId());
+                    return player;
+                })
+                .toList();
+
+        existingTeam.setPlayers(updatedPlayers);
+
         Team updatedTeam = repository.save(existingTeam);
         return mapper.toDto(updatedTeam);
     }

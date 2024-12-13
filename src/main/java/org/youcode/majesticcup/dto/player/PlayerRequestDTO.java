@@ -4,8 +4,11 @@ package org.youcode.majesticcup.dto.player;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import org.bson.types.ObjectId;
 
 public record PlayerRequestDTO(
+        ObjectId id,
+
         @NotBlank(message = "The player's name cannot be blank.")
         @Size(min = 2, max = 50, message = "The player's name must be between 2 and 50 characters.")
         String name,

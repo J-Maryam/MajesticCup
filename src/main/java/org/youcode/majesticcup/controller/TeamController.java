@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.youcode.majesticcup.dto.team.TeamRequestDTO;
 import org.youcode.majesticcup.dto.team.TeamResponseDTO;
+import org.youcode.majesticcup.model.sub_document.Player;
 import org.youcode.majesticcup.service.TeamService;
 
 import java.util.List;
@@ -50,4 +51,13 @@ public class TeamController {
         TeamResponseDTO team = teamService.getTeamById(id);
         return ResponseEntity.ok(team);
     }
+
+    @PatchMapping("/{teamId}/players")
+    public ResponseEntity<Void> addPlayerToTeam(
+            @PathVariable ObjectId teamId,
+            @RequestBody @Valid Player player) {
+        teamService.addPlayerToTeam(teamId, player);
+        return ResponseEntity.noContent().build();
+    }
+
 }

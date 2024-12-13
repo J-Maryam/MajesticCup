@@ -24,12 +24,12 @@ public class Match {
     private int round;
 
     @NotNull(message = "Team 1 must be specified.")
-    private ObjectId team1;
+    private Team team1;
 
     @NotNull(message = "Team 2 must be specified.")
-    private ObjectId team2;
+    private Team team2;
 
     private MatchResult result;
 
-    private ObjectId winner;
+    private Team winner;
 }

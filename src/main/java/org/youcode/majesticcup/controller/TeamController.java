@@ -10,6 +10,8 @@ import org.youcode.majesticcup.dto.team.TeamRequestDTO;
 import org.youcode.majesticcup.dto.team.TeamResponseDTO;
 import org.youcode.majesticcup.service.TeamService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/teams")
 @RequiredArgsConstructor
@@ -35,5 +37,11 @@ public class TeamController {
     public ResponseEntity<Void> deleteTeam(@PathVariable ObjectId id) {
         teamService.deleteTeam(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TeamResponseDTO>> getAllTeams() {
+        List<TeamResponseDTO> teams = teamService.getTeams();
+        return ResponseEntity.ok(teams);
     }
 }

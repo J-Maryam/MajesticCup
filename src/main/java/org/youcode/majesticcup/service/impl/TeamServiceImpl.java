@@ -14,6 +14,9 @@ import org.youcode.majesticcup.repository.TeamRepository;
 import org.youcode.majesticcup.service.TeamService;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,22 +38,26 @@ public class TeamServiceImpl implements TeamService {
         Team existingTeam = repository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId));
 
-        existingTeam.setName(dto.name());
-        existingTeam.setCity(dto.city());
-
-        List<Player> updatedPlayers = dto.players()
+        Map<ObjectId, Player> existingPlayersMap = existingTeam.getPlayers()
                 .stream()
+                .collect(Collectors.toMap(Player::getId, Function.identity()));
+
+        List<Player> updatedPlayers = dto.players().stream()
                 .map(playerDto -> {
-                    Player player = new Player(
-                            playerDto.name(),
-                            playerDto.surname(),
-                            playerDto.position(),
-                            playerDto.number()
-                    );
-                    player.setId(player.getId());
-                    return player;
+                    Player existingPlayer = existingPlayersMap.get(playerDto.id());
+
+                    if (existingPlayer == null) {
+                        throw new EntityNotFoundException("Player not found with ID: " + playerDto.id());
+                    }
+
+                    existingPlayer.setName(playerDto.name());
+                    existingPlayer.setSurname(playerDto.surname());
+                    existingPlayer.setPosition(playerDto.position());
+                    existingPlayer.setNumber(playerDto.number());
+
+                    return existingPlayer;
                 })
-                .toList();
+                .collect(Collectors.toList());
 
         existingTeam.setPlayers(updatedPlayers);
 

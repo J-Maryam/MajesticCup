@@ -60,4 +60,13 @@ public class TeamController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{teamId}/players/{playerId}")
+    public ResponseEntity<Void> removePlayerFromTeam(
+            @PathVariable ObjectId teamId,
+            @PathVariable ObjectId playerId) {
+        teamService.removePlayerFromTeam(teamId, playerId);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

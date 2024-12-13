@@ -49,6 +49,13 @@ public class TeamServiceImpl implements TeamService {
         return mapper.toDto(updatedTeam);
     }
 
+    @Override
+    public void deleteTeam(ObjectId teamId) {
+        Team existingTeam = repository.findById(teamId)
+                .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId));
+        repository.delete(existingTeam);
+    }
+
     private Team buildTeamFromDTO(TeamRequestDTO dto) {
         List<Player> players = dto.players()
                 .stream()

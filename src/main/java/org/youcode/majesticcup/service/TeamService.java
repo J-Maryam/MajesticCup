@@ -7,5 +7,6 @@ import org.youcode.majesticcup.dto.team.TeamResponseDTO;
 public interface TeamService {
     TeamResponseDTO createTeam(TeamRequestDTO dto);
     TeamResponseDTO updateTeam(ObjectId teamId, TeamRequestDTO dto);
+    void deleteTeam(ObjectId teamId);
 
 }

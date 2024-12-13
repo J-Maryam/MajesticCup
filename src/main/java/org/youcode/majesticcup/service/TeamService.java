@@ -10,5 +10,5 @@ public interface TeamService {
     TeamResponseDTO updateTeam(ObjectId teamId, TeamRequestDTO dto);
     void deleteTeam(ObjectId teamId);
     void addPlayerToTeam(ObjectId teamId, Player player);
-
+    void removePlayerFromTeam(ObjectId teamId, ObjectId playerId);
 }

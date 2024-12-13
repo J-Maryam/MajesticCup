@@ -93,12 +93,16 @@ public class TeamServiceImpl implements TeamService {
     private Team buildTeamFromDTO(TeamRequestDTO dto) {
         List<Player> players = dto.players()
                 .stream()
-                .map(player -> new Player(
-                        player.name(),
-                        player.surname(),
-                        player.position(),
-                        player.number()
-                ))
+                .map(player -> {
+                    Player newPlayer = new Player(
+                            player.name(),
+                            player.surname(),
+                            player.position(),
+                            player.number()
+                    );
+                    newPlayer.setId(new ObjectId());
+                    return newPlayer;
+                })
                 .toList();
         Team team = mapper.toEntity(dto);
         team.setName(dto.name());

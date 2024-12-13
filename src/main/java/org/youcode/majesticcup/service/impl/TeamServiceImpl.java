@@ -75,6 +75,13 @@ public class TeamServiceImpl implements TeamService {
         repository.save(existingTeam);
     }
 
+    public List<TeamResponseDTO> getTeams() {
+        List<Team> teams = repository.findAll();
+        return teams.stream()
+                .map(mapper::toDto)
+                .toList();
+    }
+
     private Team buildTeamFromDTO(TeamRequestDTO dto) {
         List<Player> players = dto.players()
                 .stream()

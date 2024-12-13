@@ -30,4 +30,10 @@ public class TeamController {
         TeamResponseDTO updatedTeam = teamService.updateTeam(id, request);
         return ResponseEntity.ok(updatedTeam);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTeam(@PathVariable ObjectId id) {
+        teamService.deleteTeam(id);
+        return ResponseEntity.noContent().build();
+    }
 }

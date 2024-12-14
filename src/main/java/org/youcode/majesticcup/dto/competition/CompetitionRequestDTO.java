@@ -5,9 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.bson.types.ObjectId;
-import org.youcode.majesticcup.dto.round.RoundResponseDTO;
-import org.youcode.majesticcup.dto.team.TeamResponseDTO;
-
 import java.util.List;
 
 public record CompetitionRequestDTO(
@@ -19,8 +16,8 @@ public record CompetitionRequestDTO(
         int numberOfTeams,
 
         @NotEmpty(message = "The team list cannot be empty.")
-        List<TeamResponseDTO> teamIds,
-        List<RoundResponseDTO> rounds
+        List<ObjectId> teamIds,
+        List<ObjectId> rounds
 
 ) {}
 

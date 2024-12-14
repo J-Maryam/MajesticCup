@@ -1,13 +1,17 @@
 package org.youcode.majesticcup.dto.competition;
 
+import org.bson.types.ObjectId;
+import org.youcode.majesticcup.dto.round.RoundResponseDTO;
+import org.youcode.majesticcup.dto.team.TeamResponseDTO;
+
 import java.util.List;
 
 public record CompetitionResponseDTO(
-        String id,
+        ObjectId id,
         String name,
         int numberOfTeams,
-        List<String> teams,
+        List<TeamResponseDTO> teams,
         int currentRound,
-        List<String> rounds
+        List<RoundResponseDTO> rounds
 ) {}
 

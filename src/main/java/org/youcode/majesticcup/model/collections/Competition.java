@@ -31,10 +31,10 @@ public class Competition {
     private int numberOfTeams;
 
     @NotEmpty(message = "The competition must have at least one team.")
-    private List<ObjectId> teams;
+    private List<Team> teams;
 
     private int currentRound;
 
     @NotEmpty(message = "The rounds list cannot be empty.")
-    private List<ObjectId> rounds;
+    private List<Round> rounds;
 }

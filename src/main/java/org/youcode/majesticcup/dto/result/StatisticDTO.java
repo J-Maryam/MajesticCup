@@ -1,4 +1,4 @@
-package org.youcode.majesticcup.dto;
+package org.youcode.majesticcup.dto.result;
 
 import org.bson.types.ObjectId;
 

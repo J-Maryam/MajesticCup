@@ -1,6 +1,7 @@
 package org.youcode.majesticcup.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
+import org.bson.types.ObjectId;
 
 public record UserRequestDTO(
         @NotBlank(message = "Username cannot be blank.")
@@ -10,6 +11,6 @@ public record UserRequestDTO(
         String password,
 
         @NotBlank(message = "Role cannot be blank.")
-        String role
+        ObjectId role
 ) {}
 

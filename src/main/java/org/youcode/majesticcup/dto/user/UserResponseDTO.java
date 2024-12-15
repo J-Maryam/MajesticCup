@@ -1,9 +1,11 @@
 package org.youcode.majesticcup.dto.user;
 
+import org.bson.types.ObjectId;
+
 public record UserResponseDTO(
-        String id,
+        ObjectId id,
         String username,
-        String role
+        ObjectId role
 ) {}
 
 

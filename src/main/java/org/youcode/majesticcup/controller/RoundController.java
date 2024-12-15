@@ -33,6 +33,12 @@ public class RoundController {
         return ResponseEntity.ok(service.getRoundById(roundId));
     }
 
+    @PutMapping("/{roundId}")
+    public ResponseEntity<RoundResponseDTO> updateRound(@PathVariable ObjectId roundId,
+                                                        @RequestBody @Valid RoundRequestDTO dto) {
+        return ResponseEntity.ok(service.updateRound(roundId, dto));
+    }
+
     @DeleteMapping("/{roundId}")
     public ResponseEntity<Void> deleteRound(@PathVariable ObjectId roundId) {
         service.deleteRound(roundId);

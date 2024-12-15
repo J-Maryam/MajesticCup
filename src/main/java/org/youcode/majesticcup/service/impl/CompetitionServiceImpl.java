@@ -63,6 +63,30 @@ public class CompetitionServiceImpl implements CompetitionService {
                 .toList();
     }
 
+
+    @Override
+    public CompetitionResponseDTO updateCompetition(ObjectId id, CompetitionRequestDTO dto) {
+        Competition competition = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + id));
+
+        List<Team> teams = dto.teamIds().stream()
+                .map(teamId -> teamRepository.findById(teamId)
+                        .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId)))
+                .toList();
+
+        if (teams.size() != dto.numberOfTeams()) {
+            throw new IllegalArgumentException("The number of provided teams does not match the specified number of teams.");
+        }
+
+        competition.setName(dto.name());
+        competition.setNumberOfTeams(dto.numberOfTeams());
+        competition.setTeams(teams);
+
+        Competition updatedCompetition = repository.save(competition);
+
+        return mapper.toDto(updatedCompetition);
+    }
+
     @Override
     public void deleteCompetition(ObjectId id) {
         if (!repository.existsById(id)) {

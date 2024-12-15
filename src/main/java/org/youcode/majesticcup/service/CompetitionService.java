@@ -11,5 +11,5 @@ public interface CompetitionService {
     CompetitionResponseDTO getCompetitionById(ObjectId id);
     void deleteCompetition(ObjectId id);
     List<CompetitionResponseDTO> getAllCompetitions();
-
+    CompetitionResponseDTO updateCompetition(ObjectId id, CompetitionRequestDTO dto);
 }

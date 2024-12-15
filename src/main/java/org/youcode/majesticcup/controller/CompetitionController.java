@@ -10,6 +10,8 @@ import org.youcode.majesticcup.dto.competition.CompetitionRequestDTO;
 import org.youcode.majesticcup.dto.competition.CompetitionResponseDTO;
 import org.youcode.majesticcup.service.CompetitionService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/competitions")
 @RequiredArgsConstructor
@@ -26,6 +28,12 @@ public class CompetitionController {
     @GetMapping("/{id}")
     public ResponseEntity<CompetitionResponseDTO> getCompetitionById(@PathVariable ObjectId id) {
         CompetitionResponseDTO response = service.getCompetitionById(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CompetitionResponseDTO>> getAllCompetitions() {
+        List<CompetitionResponseDTO> response = service.getAllCompetitions();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

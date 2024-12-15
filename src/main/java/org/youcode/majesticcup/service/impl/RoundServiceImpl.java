@@ -69,6 +69,27 @@
         }
 
         @Override
+        public RoundResponseDTO updateRound(ObjectId roundId, RoundRequestDTO dto) {
+            Round round = repository.findById(roundId)
+                    .orElseThrow(() -> new EntityNotFoundException("Round not found with ID: " + roundId));
+
+            Competition competition = competitionRepository.findById(dto.competitionId())
+                    .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + dto.competitionId()));
+
+            List<Match> matches = dto.matches().stream()
+                    .map(matchId -> matchRepository.findById(matchId)
+                            .orElseThrow(() -> new EntityNotFoundException("Match not found with ID: " + matchId)))
+                    .collect(Collectors.toList());
+
+            round.setRoundNumber(dto.roundNumber());
+            round.setCompetitionId(competition);
+            round.setMatches(matches);
+
+            Round updatedRound = repository.save(round);
+            return mapper.toDto(updatedRound);
+        }
+
+        @Override
         public void deleteRound(ObjectId roundId) {
             Round round = repository.findById(roundId)
                     .orElseThrow(() -> new EntityNotFoundException("Round not found with ID: " + roundId));

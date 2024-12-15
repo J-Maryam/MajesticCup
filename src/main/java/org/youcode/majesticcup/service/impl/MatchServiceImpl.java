@@ -5,10 +5,11 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
-import org.youcode.majesticcup.dto.MatchResultDTO;
-import org.youcode.majesticcup.dto.StatisticDTO;
+import org.youcode.majesticcup.dto.result.MatchResultDTO;
+import org.youcode.majesticcup.dto.result.StatisticDTO;
 import org.youcode.majesticcup.dto.match.MatchRequestDTO;
 import org.youcode.majesticcup.dto.match.MatchResponseDTO;
+import org.youcode.majesticcup.dto.result.ResultDTO;
 import org.youcode.majesticcup.mapper.MatchMapper;
 import org.youcode.majesticcup.model.collections.Match;
 import org.youcode.majesticcup.model.sub_document.MatchResult;
@@ -101,5 +102,44 @@ public class MatchServiceImpl implements MatchService {
         Match savedMatch = repository.save(match);
         return mapper.toDto(savedMatch);
     }
+
+//    @Override
+//    public List<MatchResponseDTO> getAllMatchResults() {
+//        List<Match> matches = repository.findAll();
+//
+//        return matches.stream()
+//                .filter(match -> match.getResult() != null)
+//                .map(mapper::toDto)
+//                .toList();
+//    }
+
+    @Override
+    public List<ResultDTO> getAllMatchResults() {
+        List<Match> matches = repository.findAll();
+
+        return matches.stream()
+                .filter(match -> match.getResult() != null)
+                .map(match -> new ResultDTO(
+                        match.getRound(),
+                        match.getTeam1().getName(),
+                        match.getTeam2().getName(),
+                        new MatchResultDTO(
+                                match.getResult().getTeam1Goals(),
+                                match.getResult().getTeam2Goals(),
+                                match.getResult().getStatistics().stream()
+                                        .map(stat -> new StatisticDTO(
+                                                stat.getPlayerId(),
+                                                stat.getGoals(),
+                                                stat.getAssists(),
+                                                stat.getYellowCards(),
+                                                stat.getRedCards()
+                                        ))
+                                        .toList()
+                        ),
+                        match.getWinner() != null ? match.getWinner().getName() : "Draw"
+                ))
+                .toList();
+    }
+
 
 }

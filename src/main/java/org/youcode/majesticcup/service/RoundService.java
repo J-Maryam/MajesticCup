@@ -9,4 +9,5 @@ import java.util.List;
 public interface RoundService {
     RoundResponseDTO createRound(RoundRequestDTO dto);
     List<RoundResponseDTO> getRoundsByCompetition(ObjectId competitionId);
+    RoundResponseDTO getRoundById(ObjectId roundId);
 }

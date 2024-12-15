@@ -61,4 +61,11 @@
                     .collect(Collectors.toList());
         }
 
+        @Override
+        public RoundResponseDTO getRoundById(ObjectId roundId) {
+            Round round = repository.findById(roundId)
+                    .orElseThrow(() -> new EntityNotFoundException("Round not found with ID: " + roundId));
+            return mapper.toDto(round);
+        }
+
     }

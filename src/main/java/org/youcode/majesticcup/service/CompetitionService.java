@@ -7,5 +7,6 @@ import org.youcode.majesticcup.dto.competition.CompetitionResponseDTO;
 public interface CompetitionService {
     CompetitionResponseDTO createCompetition(CompetitionRequestDTO dto);
     CompetitionResponseDTO getCompetitionById(ObjectId id);
+    void deleteCompetition(ObjectId id);
 
 }

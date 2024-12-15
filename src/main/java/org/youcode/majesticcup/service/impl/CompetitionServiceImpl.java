@@ -54,4 +54,12 @@ public class CompetitionServiceImpl implements CompetitionService {
                 .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + id));
         return mapper.toDto(competition);
     }
+
+    @Override
+    public void deleteCompetition(ObjectId id) {
+        if (!repository.existsById(id)) {
+            throw new EntityNotFoundException("Competition not found with ID: " + id);
+        }
+        repository.deleteById(id);
+    }
 }

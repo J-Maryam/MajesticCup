@@ -68,4 +68,11 @@
             return mapper.toDto(round);
         }
 
+        @Override
+        public void deleteRound(ObjectId roundId) {
+            Round round = repository.findById(roundId)
+                    .orElseThrow(() -> new EntityNotFoundException("Round not found with ID: " + roundId));
+            repository.delete(round);
+        }
+
     }

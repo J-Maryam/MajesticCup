@@ -33,4 +33,9 @@ public class RoundController {
         return ResponseEntity.ok(service.getRoundById(roundId));
     }
 
+    @DeleteMapping("/{roundId}")
+    public ResponseEntity<Void> deleteRound(@PathVariable ObjectId roundId) {
+        service.deleteRound(roundId);
+        return ResponseEntity.noContent().build();
+    }
 }

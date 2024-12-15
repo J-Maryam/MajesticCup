@@ -28,4 +28,11 @@ public class CompetitionController {
         CompetitionResponseDTO response = service.getCompetitionById(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCompetition(@PathVariable ObjectId id) {
+        service.deleteCompetition(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

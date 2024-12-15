@@ -37,6 +37,14 @@ public class CompetitionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<CompetitionResponseDTO> updateCompetition(
+            @PathVariable("id") ObjectId competitionId,
+            @RequestBody CompetitionRequestDTO dto) {
+        CompetitionResponseDTO updatedCompetition = service.updateCompetition(competitionId, dto);
+        return ResponseEntity.ok(updatedCompetition);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCompetition(@PathVariable ObjectId id) {
         service.deleteCompetition(id);

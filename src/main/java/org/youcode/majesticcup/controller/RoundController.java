@@ -28,4 +28,9 @@ public class RoundController {
         return ResponseEntity.ok(service.getRoundsByCompetition(competitionId));
     }
 
+    @GetMapping("/{roundId}")
+    public ResponseEntity<RoundResponseDTO> getRoundById(@PathVariable ObjectId roundId) {
+        return ResponseEntity.ok(service.getRoundById(roundId));
+    }
+
 }

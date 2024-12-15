@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.youcode.majesticcup.dto.MatchResultDTO;
+import org.youcode.majesticcup.dto.result.MatchResultDTO;
 import org.youcode.majesticcup.dto.match.MatchRequestDTO;
 import org.youcode.majesticcup.dto.match.MatchResponseDTO;
 import org.youcode.majesticcup.service.MatchService;

@@ -1,4 +1,24 @@
 package org.youcode.majesticcup.controller;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.youcode.majesticcup.dto.result.ResultDTO;
+import org.youcode.majesticcup.service.MatchService;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("api/public")
+@RequiredArgsConstructor
 public class PublicController {
+    private final MatchService matchService;
+
+    @GetMapping("/results")
+    public ResponseEntity<List<ResultDTO>> getAllMatchResults() {
+        List<ResultDTO> matchResults = matchService.getAllMatchResults();
+        return ResponseEntity.ok(matchResults);
+    }
 }

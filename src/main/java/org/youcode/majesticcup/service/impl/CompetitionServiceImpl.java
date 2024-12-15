@@ -56,6 +56,14 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    public List<CompetitionResponseDTO> getAllCompetitions() {
+        List<Competition> competitions = repository.findAll();
+        return competitions.stream()
+                .map(mapper::toDto)
+                .toList();
+    }
+
+    @Override
     public void deleteCompetition(ObjectId id) {
         if (!repository.existsById(id)) {
             throw new EntityNotFoundException("Competition not found with ID: " + id);

@@ -1,6 +1,7 @@
 package org.youcode.majesticcup.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
@@ -47,5 +48,10 @@ public class CompetitionServiceImpl implements CompetitionService {
         return mapper.toDto(savedCompetition);
     }
 
-
+    @Override
+    public CompetitionResponseDTO getCompetitionById(ObjectId id) {
+        Competition competition = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + id));
+        return mapper.toDto(competition);
+    }
 }

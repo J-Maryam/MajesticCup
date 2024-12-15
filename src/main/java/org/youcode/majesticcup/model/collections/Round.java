@@ -26,8 +26,8 @@ public class Round {
     private int roundNumber;
 
     @NotNull(message = "Competition ID cannot be null.")
-    private ObjectId competitionId;
+    private Competition competitionId;
 
     @NotEmpty(message = "Matches list cannot be empty.")
-    private List<ObjectId> matches;
+    private List<Match> matches;
 }

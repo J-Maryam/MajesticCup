@@ -1,13 +1,15 @@
 package org.youcode.majesticcup.dto.round;
 
+import org.bson.types.ObjectId;
+import org.youcode.majesticcup.dto.competition.CompetitionResponseDTO;
 import org.youcode.majesticcup.dto.match.MatchResponseDTO;
 
 import java.util.List;
 
 public record RoundResponseDTO(
-        String id,
+        ObjectId id,
         int roundNumber,
-        String competitionId,
+        CompetitionResponseDTO competitionId,
         List<MatchResponseDTO> matches
 ) {}
 

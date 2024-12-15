@@ -35,6 +35,5 @@ public class Competition {
 
     private int currentRound;
 
-    @NotEmpty(message = "The rounds list cannot be empty.")
     private List<Round> rounds;
 }

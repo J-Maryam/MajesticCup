@@ -1,6 +1,7 @@
     package org.youcode.majesticcup.service.impl;
 
     import lombok.RequiredArgsConstructor;
+    import org.bson.types.ObjectId;
     import org.springframework.stereotype.Service;
     import org.springframework.transaction.annotation.Transactional;
     import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
@@ -48,4 +49,16 @@
             Round savedRound = repository.save(round);
             return mapper.toDto(savedRound);
         }
+
+        @Override
+        public List<RoundResponseDTO> getRoundsByCompetition(ObjectId competitionId) {
+            Competition competition = competitionRepository.findById(competitionId)
+                    .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + competitionId));
+
+            List<Round> rounds = repository.findByCompetitionId(competition);
+            return rounds.stream()
+                    .map(mapper::toDto)
+                    .collect(Collectors.toList());
+        }
+
     }

@@ -158,7 +158,12 @@ public class MatchServiceImpl implements MatchService {
                     ObjectId playerId = entry.getKey();
                     Statistic stat = entry.getValue();
                     String playerName = findPlayerNameById(playerId);
-                    return new TopScorerDTO(playerName, stat.getGoals(), stat.getAssists(), stat.getYellowCards(), stat.getRedCards());
+                    return new TopScorerDTO(
+                            playerName,
+                            stat.getGoals(),
+                            stat.getAssists(),
+                            stat.getYellowCards(),
+                            stat.getRedCards());
                 })
                 .sorted(Comparator.comparingInt(TopScorerDTO::goals).reversed())
                 .toList();
@@ -197,8 +202,8 @@ public class MatchServiceImpl implements MatchService {
                 .entrySet().stream()
                 .map(entry -> new TopScorerDTO(
                         findPlayerNameById(entry.getKey()),
-                        entry.getValue().getAssists(),
                         entry.getValue().getGoals(),
+                        entry.getValue().getAssists(),
                         entry.getValue().getYellowCards(),
                         entry.getValue().getRedCards()
                 ))

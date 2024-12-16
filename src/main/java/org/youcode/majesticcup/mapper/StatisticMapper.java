@@ -1,7 +1,7 @@
 package org.youcode.majesticcup.mapper;
 
 import org.mapstruct.Mapper;
-import org.youcode.majesticcup.dto.StatisticDTO;
+import org.youcode.majesticcup.dto.result.StatisticDTO;
 import org.youcode.majesticcup.model.sub_document.Statistic;
 
 @Mapper(componentModel = "spring")

@@ -1,5 +1,7 @@
 package org.youcode.majesticcup.model.sub_document;
 
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +14,16 @@ import org.bson.types.ObjectId;
 @AllArgsConstructor
 public class Statistic {
     private ObjectId playerId;
-    private int goals;
+
+    @Positive(message = "Assists must be a positive number.")
     private int assists;
+
+    @PositiveOrZero(message = "Yellow cards must be 0 or positive.")
     private int yellowCards;
+
+    @PositiveOrZero(message = "Red cards must be 0 or positive.")
     private int redCards;
+
+    @Positive(message = "Goals must be a positive number.")
+    private int goals;
 }

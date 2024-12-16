@@ -17,7 +17,7 @@ public record CompetitionRequestDTO(
 
         @NotEmpty(message = "The team list cannot be empty.")
         List<ObjectId> teamIds,
-        List<ObjectId> rounds
+        List<ObjectId> roundIds
 
 ) {}
 

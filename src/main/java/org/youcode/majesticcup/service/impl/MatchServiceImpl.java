@@ -211,4 +211,37 @@ public class MatchServiceImpl implements MatchService {
                 .toList();
     }
 
+    @Override
+    public List<TopScorerDTO> getTopCards() {
+        List<Statistic> allStatistics = repository.findAll().stream()
+                .filter(match -> match.getResult() != null)
+                .flatMap(match -> match.getResult().getStatistics().stream())
+                .toList();
+
+        return allStatistics.stream()
+                .collect(Collectors.groupingBy(
+                        Statistic::getPlayerId,
+                        Collectors.reducing(
+                                new Statistic(),
+                                (stats1, stats2) -> new Statistic(
+                                        stats1.getPlayerId(),
+                                        stats1.getAssists() + stats2.getAssists(),
+                                        stats1.getYellowCards() + stats2.getYellowCards(),
+                                        stats1.getRedCards() + stats2.getRedCards(),
+                                        stats1.getGoals() + stats2.getGoals()
+                                )
+                        )
+                ))
+                .entrySet().stream()
+                .map(entry -> new TopScorerDTO(
+                        findPlayerNameById(entry.getKey()),
+                        entry.getValue().getGoals(),
+                        entry.getValue().getAssists(),
+                        entry.getValue().getYellowCards(),
+                        entry.getValue().getRedCards()
+                ))
+                .sorted(Comparator.comparingInt(TopScorerDTO::yellowCards).reversed())
+                .toList();
+    }
+
 }

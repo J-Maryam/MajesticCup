@@ -10,6 +10,7 @@ import org.youcode.majesticcup.dto.result.StatisticDTO;
 import org.youcode.majesticcup.dto.match.MatchRequestDTO;
 import org.youcode.majesticcup.dto.match.MatchResponseDTO;
 import org.youcode.majesticcup.dto.result.ResultDTO;
+import org.youcode.majesticcup.dto.result.TopScorerDTO;
 import org.youcode.majesticcup.mapper.MatchMapper;
 import org.youcode.majesticcup.model.collections.Match;
 import org.youcode.majesticcup.model.sub_document.MatchResult;
@@ -19,9 +20,8 @@ import org.youcode.majesticcup.repository.MatchRepository;
 import org.youcode.majesticcup.repository.TeamRepository;
 import org.youcode.majesticcup.service.MatchService;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -141,5 +141,46 @@ public class MatchServiceImpl implements MatchService {
                 .toList();
     }
 
+    @Override
+    public List<TopScorerDTO> getTopScorers() {
+        List<Statistic> allStatistics = repository.findAll().stream()
+                .filter(match -> match.getResult() != null)
+                .flatMap(match -> match.getResult().getStatistics().stream())
+                .toList();
+
+        Map<ObjectId, Statistic> aggregatedStats = allStatistics.stream()
+                .collect(Collectors.groupingBy(
+                        Statistic::getPlayerId,
+                        Collectors.reducing(
+                                new Statistic(),
+                                (stats1, stats2) -> new Statistic(
+                                        stats1.getPlayerId(),
+                                        stats1.getAssists() + stats2.getAssists(),
+                                        stats1.getYellowCards() + stats2.getYellowCards(),
+                                        stats1.getRedCards() + stats2.getRedCards(),
+                                        stats1.getGoals() + stats2.getGoals()
+                                )
+                        )
+                ));
+
+        return aggregatedStats.entrySet().stream()
+                .map(entry -> {
+                    ObjectId playerId = entry.getKey();
+                    Statistic stat = entry.getValue();
+                    String playerName = findPlayerNameById(playerId);
+                    return new TopScorerDTO(playerName, stat.getGoals(), stat.getAssists(), stat.getYellowCards(), stat.getRedCards());
+                })
+                .sorted(Comparator.comparingInt(TopScorerDTO::goals).reversed())
+                .toList();
+    }
+
+    private String findPlayerNameById(ObjectId playerId) {
+        return teamRepository.findAll().stream()
+                .flatMap(team -> team.getPlayers().stream())
+                .filter(player -> player.getId().equals(playerId))
+                .map(Player::getName)
+                .findFirst()
+                .orElse("Unknown Player");
+    }
 
 }

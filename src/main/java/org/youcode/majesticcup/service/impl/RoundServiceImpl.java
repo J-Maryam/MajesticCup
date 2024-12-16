@@ -33,8 +33,8 @@
 
         @Override
         public RoundResponseDTO createRound(RoundRequestDTO dto) {
-            Competition competition = competitionRepository.findById(dto.competitionId())
-                    .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + dto.competitionId()));
+//            Competition competition = competitionRepository.findById(dto.competitionId())
+//                    .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + dto.competitionId()));
 
             List<Match> matches = dto.matches().stream()
                     .map(matchId -> matchRepository.findById((matchId))
@@ -43,7 +43,7 @@
 
             Round round = new Round();
             round.setRoundNumber(dto.roundNumber());
-            round.setCompetitionId(competition);
+//            round.setCompetitionId(competition);
             round.setMatches(matches);
 
             Round savedRound = repository.save(round);

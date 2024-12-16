@@ -9,8 +9,10 @@ import org.youcode.majesticcup.dto.competition.CompetitionRequestDTO;
 import org.youcode.majesticcup.dto.competition.CompetitionResponseDTO;
 import org.youcode.majesticcup.mapper.CompetitionMapper;
 import org.youcode.majesticcup.model.collections.Competition;
+import org.youcode.majesticcup.model.collections.Round;
 import org.youcode.majesticcup.model.collections.Team;
 import org.youcode.majesticcup.repository.CompetitionRepository;
+import org.youcode.majesticcup.repository.RoundRepository;
 import org.youcode.majesticcup.repository.TeamRepository;
 import org.youcode.majesticcup.service.CompetitionService;
 
@@ -23,13 +25,18 @@ public class CompetitionServiceImpl implements CompetitionService {
     private final CompetitionRepository repository;
     private final CompetitionMapper mapper;
     private final TeamRepository teamRepository;
-
+    private final RoundRepository roundRepository;
 
     @Override
     public CompetitionResponseDTO createCompetition(CompetitionRequestDTO dto) {
         List<Team> teams = dto.teamIds().stream()
                 .map(teamId -> teamRepository.findById(teamId)
                         .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId)))
+                .toList();
+
+        List<Round> rounds = dto.roundIds().stream()
+                .map(roundId -> roundRepository.findById(roundId)
+                        .orElseThrow(() -> new EntityNotFoundException("Round not found with Id " + roundId)))
                 .toList();
 
         if (teams.size() != dto.numberOfTeams()) {
@@ -41,7 +48,7 @@ public class CompetitionServiceImpl implements CompetitionService {
         competition.setNumberOfTeams(dto.numberOfTeams());
         competition.setTeams(teams);
         competition.setCurrentRound(0);
-        competition.setRounds(List.of());
+        competition.setRounds(rounds);
 
         Competition savedCompetition = repository.save(competition);
 
@@ -74,6 +81,11 @@ public class CompetitionServiceImpl implements CompetitionService {
                         .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId)))
                 .toList();
 
+        List<Round> rounds = dto.roundIds().stream()
+                .map(roundId -> roundRepository.findById(roundId)
+                        .orElseThrow(() -> new EntityNotFoundException("Round not found with Id " + roundId)))
+                .toList();
+
         if (teams.size() != dto.numberOfTeams()) {
             throw new IllegalArgumentException("The number of provided teams does not match the specified number of teams.");
         }
@@ -81,6 +93,7 @@ public class CompetitionServiceImpl implements CompetitionService {
         competition.setName(dto.name());
         competition.setNumberOfTeams(dto.numberOfTeams());
         competition.setTeams(teams);
+        competition.setRounds(rounds);
 
         Competition updatedCompetition = repository.save(competition);
 

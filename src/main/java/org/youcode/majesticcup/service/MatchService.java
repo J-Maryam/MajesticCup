@@ -15,5 +15,6 @@ public interface MatchService {
     List<ResultDTO> getAllMatchResults();
     List<TopScorerDTO> getTopScorers();
     List<TopScorerDTO> getTopAssists();
+    List<TopScorerDTO> getTopCards();
 
 }

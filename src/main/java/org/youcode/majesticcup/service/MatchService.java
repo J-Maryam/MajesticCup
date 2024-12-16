@@ -14,4 +14,6 @@ public interface MatchService {
     MatchResponseDTO registerMatchResult(ObjectId matchId, MatchResultDTO matchResultDTO);
     List<ResultDTO> getAllMatchResults();
     List<TopScorerDTO> getTopScorers();
+    List<TopScorerDTO> getTopAssists();
+
 }

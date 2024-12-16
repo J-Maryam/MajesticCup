@@ -103,16 +103,6 @@ public class MatchServiceImpl implements MatchService {
         return mapper.toDto(savedMatch);
     }
 
-//    @Override
-//    public List<MatchResponseDTO> getAllMatchResults() {
-//        List<Match> matches = repository.findAll();
-//
-//        return matches.stream()
-//                .filter(match -> match.getResult() != null)
-//                .map(mapper::toDto)
-//                .toList();
-//    }
-
     @Override
     public List<ResultDTO> getAllMatchResults() {
         List<Match> matches = repository.findAll();
@@ -181,6 +171,39 @@ public class MatchServiceImpl implements MatchService {
                 .map(Player::getName)
                 .findFirst()
                 .orElse("Unknown Player");
+    }
+
+    @Override
+    public List<TopScorerDTO> getTopAssists() {
+        List<Statistic> allStatistics = repository.findAll().stream()
+                .filter(match -> match.getResult() != null)
+                .flatMap(match -> match.getResult().getStatistics().stream())
+                .toList();
+
+        return allStatistics.stream()
+                .collect(Collectors.groupingBy(
+                        Statistic::getPlayerId,
+                        Collectors.reducing(
+                                new Statistic(),
+                                (stats1, stats2) -> new Statistic(
+                                        stats1.getPlayerId(),
+                                        stats1.getAssists() + stats2.getAssists(),
+                                        stats1.getYellowCards() + stats2.getYellowCards(),
+                                        stats1.getRedCards() + stats2.getRedCards(),
+                                        stats1.getGoals() + stats2.getGoals()
+                                )
+                        )
+                ))
+                .entrySet().stream()
+                .map(entry -> new TopScorerDTO(
+                        findPlayerNameById(entry.getKey()),
+                        entry.getValue().getAssists(),
+                        entry.getValue().getGoals(),
+                        entry.getValue().getYellowCards(),
+                        entry.getValue().getRedCards()
+                ))
+                .sorted(Comparator.comparingInt(TopScorerDTO::assists).reversed())
+                .toList();
     }
 
 }

@@ -28,4 +28,10 @@ public class PublicController {
         List<TopScorerDTO> topScorers = matchService.getTopScorers();
         return ResponseEntity.ok(topScorers);
     }
+
+    @GetMapping("/statistics/top-assists")
+    public ResponseEntity<List<TopScorerDTO>> getTopAssists() {
+        List<TopScorerDTO> topAssists = matchService.getTopAssists();
+        return ResponseEntity.ok(topAssists);
+    }
 }

@@ -1,6 +1,6 @@
 package org.youcode.majesticcup.dto.result;
 
-public record TopScorerDTO(
+public record StatisticResponseDTO(
         String playerName,
         int goals,
         int assists,

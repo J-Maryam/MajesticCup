@@ -13,7 +13,7 @@ public record RoundRequestDTO(
         @Positive(message = "Round number must be a positive integer.")
         int roundNumber,
 
-        @NotNull(message = "Competition ID cannot be blank.")
+//        @NotNull(message = "Competition ID cannot be blank.")
         ObjectId competitionId,
 
         @NotEmpty(message = "Matches list cannot be empty.")

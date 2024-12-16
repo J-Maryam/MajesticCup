@@ -10,7 +10,7 @@ import org.youcode.majesticcup.dto.result.StatisticDTO;
 import org.youcode.majesticcup.dto.match.MatchRequestDTO;
 import org.youcode.majesticcup.dto.match.MatchResponseDTO;
 import org.youcode.majesticcup.dto.result.ResultDTO;
-import org.youcode.majesticcup.dto.result.TopScorerDTO;
+import org.youcode.majesticcup.dto.result.StatisticResponseDTO;
 import org.youcode.majesticcup.mapper.MatchMapper;
 import org.youcode.majesticcup.model.collections.Match;
 import org.youcode.majesticcup.model.sub_document.MatchResult;
@@ -132,7 +132,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<TopScorerDTO> getTopScorers() {
+    public List<StatisticResponseDTO> getTopScorers() {
         List<Statistic> allStatistics = repository.findAll().stream()
                 .filter(match -> match.getResult() != null)
                 .flatMap(match -> match.getResult().getStatistics().stream())
@@ -158,14 +158,14 @@ public class MatchServiceImpl implements MatchService {
                     ObjectId playerId = entry.getKey();
                     Statistic stat = entry.getValue();
                     String playerName = findPlayerNameById(playerId);
-                    return new TopScorerDTO(
+                    return new StatisticResponseDTO(
                             playerName,
                             stat.getGoals(),
                             stat.getAssists(),
                             stat.getYellowCards(),
                             stat.getRedCards());
                 })
-                .sorted(Comparator.comparingInt(TopScorerDTO::goals).reversed())
+                .sorted(Comparator.comparingInt(StatisticResponseDTO::goals).reversed())
                 .toList();
     }
 
@@ -179,7 +179,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<TopScorerDTO> getTopAssists() {
+    public List<StatisticResponseDTO> getTopAssists() {
         List<Statistic> allStatistics = repository.findAll().stream()
                 .filter(match -> match.getResult() != null)
                 .flatMap(match -> match.getResult().getStatistics().stream())
@@ -200,19 +200,19 @@ public class MatchServiceImpl implements MatchService {
                         )
                 ))
                 .entrySet().stream()
-                .map(entry -> new TopScorerDTO(
+                .map(entry -> new StatisticResponseDTO(
                         findPlayerNameById(entry.getKey()),
                         entry.getValue().getGoals(),
                         entry.getValue().getAssists(),
                         entry.getValue().getYellowCards(),
                         entry.getValue().getRedCards()
                 ))
-                .sorted(Comparator.comparingInt(TopScorerDTO::assists).reversed())
+                .sorted(Comparator.comparingInt(StatisticResponseDTO::assists).reversed())
                 .toList();
     }
 
     @Override
-    public List<TopScorerDTO> getTopCards() {
+    public List<StatisticResponseDTO> getTopCards() {
         List<Statistic> allStatistics = repository.findAll().stream()
                 .filter(match -> match.getResult() != null)
                 .flatMap(match -> match.getResult().getStatistics().stream())
@@ -233,14 +233,14 @@ public class MatchServiceImpl implements MatchService {
                         )
                 ))
                 .entrySet().stream()
-                .map(entry -> new TopScorerDTO(
+                .map(entry -> new StatisticResponseDTO(
                         findPlayerNameById(entry.getKey()),
                         entry.getValue().getGoals(),
                         entry.getValue().getAssists(),
                         entry.getValue().getYellowCards(),
                         entry.getValue().getRedCards()
                 ))
-                .sorted(Comparator.comparingInt(TopScorerDTO::yellowCards).reversed())
+                .sorted(Comparator.comparingInt(StatisticResponseDTO::yellowCards).reversed())
                 .toList();
     }
 

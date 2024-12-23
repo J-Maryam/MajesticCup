@@ -1,18 +1,17 @@
-package org.youcode.majesticcup.common.exceptions.security;
+package org.youcode.majesticcup.common;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.youcode.majesticcup.common.ErrorResponse;
-import org.youcode.majesticcup.common.exceptions.BadRequestException;
-import org.youcode.majesticcup.common.exceptions.ConflictException;
-import org.youcode.majesticcup.common.exceptions.EntityCreationException;
-import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
-import org.youcode.majesticcup.exceptions.IncorrectPasswordException;
-import org.youcode.majesticcup.exceptions.RoleNotFoundException;
-import org.youcode.majesticcup.exceptions.UsernameAlreadyExistsException;
-import org.youcode.majesticcup.exceptions.UsernameNotFoundException;
+import org.youcode.majesticcup.common.exceptions.business.BadRequestException;
+import org.youcode.majesticcup.common.exceptions.business.ConflictException;
+import org.youcode.majesticcup.common.exceptions.business.EntityCreationException;
+import org.youcode.majesticcup.common.exceptions.business.EntityNotFoundException;
+import org.youcode.majesticcup.common.exceptions.business.IncorrectPasswordException;
+import org.youcode.majesticcup.common.exceptions.business.RoleNotFoundException;
+import org.youcode.majesticcup.common.exceptions.business.UsernameAlreadyExistsException;
+import org.youcode.majesticcup.common.exceptions.business.UsernameNotFoundException;
 
 import java.time.LocalDateTime;
 

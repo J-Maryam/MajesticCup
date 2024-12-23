@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
+import org.youcode.majesticcup.common.exceptions.business.EntityNotFoundException;
+import org.youcode.majesticcup.dto.player.PlayerRequestDTO;
 import org.youcode.majesticcup.dto.team.TeamRequestDTO;
 import org.youcode.majesticcup.dto.team.TeamResponseDTO;
 import org.youcode.majesticcup.mapper.TeamMapper;
@@ -13,8 +14,10 @@ import org.youcode.majesticcup.model.sub_document.Player;
 import org.youcode.majesticcup.repository.TeamRepository;
 import org.youcode.majesticcup.service.TeamService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,9 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public TeamResponseDTO createTeam(TeamRequestDTO dto) {
+        validateUniquePlayers(dto.players());
+        validateUniqueTeamName(dto.name());
+
         Team team = buildTeamFromDTO(dto);
         Team savedTeam = repository.save(team);
         return mapper.toDto(savedTeam);
@@ -126,4 +132,26 @@ public class TeamServiceImpl implements TeamService {
         team.setPlayers(players);
         return team;
     }
+
+    private void validateUniqueTeamName(String teamName) {
+        if (repository.existsByName(teamName)) {
+            throw new IllegalArgumentException("Team name must be unique: " + teamName);
+        }
+    }
+
+    private void validateUniquePlayers(List<PlayerRequestDTO> players) {
+        Set<Integer> playerNumbers = new HashSet<>();
+
+        players.stream()
+                .map(PlayerRequestDTO::number)
+                .filter(number -> !playerNumbers.add(number))
+                .findFirst()
+                .ifPresent(duplicate -> {
+                    throw new IllegalArgumentException(
+                            "Duplicate player number detected: " + duplicate
+                    );
+                });
+    }
+
+
 }

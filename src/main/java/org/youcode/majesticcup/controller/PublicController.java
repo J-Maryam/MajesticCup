@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.youcode.majesticcup.dto.result.ResultDTO;
-import org.youcode.majesticcup.dto.result.TopScorerDTO;
+import org.youcode.majesticcup.dto.result.StatisticResponseDTO;
 import org.youcode.majesticcup.service.MatchService;
 
 import java.util.List;
@@ -24,20 +24,20 @@ public class PublicController {
     }
 
     @GetMapping("/statistics/top-scorers")
-    public ResponseEntity<List<TopScorerDTO>> getTopScorers() {
-        List<TopScorerDTO> topScorers = matchService.getTopScorers();
+    public ResponseEntity<List<StatisticResponseDTO>> getTopScorers() {
+        List<StatisticResponseDTO> topScorers = matchService.getTopScorers();
         return ResponseEntity.ok(topScorers);
     }
 
     @GetMapping("/statistics/top-assists")
-    public ResponseEntity<List<TopScorerDTO>> getTopAssists() {
-        List<TopScorerDTO> topAssists = matchService.getTopAssists();
+    public ResponseEntity<List<StatisticResponseDTO>> getTopAssists() {
+        List<StatisticResponseDTO> topAssists = matchService.getTopAssists();
         return ResponseEntity.ok(topAssists);
     }
 
     @GetMapping("/statistics/cards")
-    public ResponseEntity<List<TopScorerDTO>> getTopCards() {
-        List<TopScorerDTO> topCards = matchService.getTopCards();
+    public ResponseEntity<List<StatisticResponseDTO>> getTopCards() {
+        List<StatisticResponseDTO> topCards = matchService.getTopCards();
         return ResponseEntity.ok(topCards);
     }
 }

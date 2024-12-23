@@ -4,7 +4,7 @@
     import org.bson.types.ObjectId;
     import org.springframework.stereotype.Service;
     import org.springframework.transaction.annotation.Transactional;
-    import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
+    import org.youcode.majesticcup.common.exceptions.business.EntityNotFoundException;
     import org.youcode.majesticcup.dto.round.RoundRequestDTO;
     import org.youcode.majesticcup.dto.round.RoundResponseDTO;
     import org.youcode.majesticcup.mapper.RoundMapper;
@@ -17,7 +17,9 @@
     import org.youcode.majesticcup.repository.TeamRepository;
     import org.youcode.majesticcup.service.RoundService;
 
+    import java.util.HashSet;
     import java.util.List;
+    import java.util.Set;
     import java.util.stream.Collectors;
 
     @Service
@@ -35,6 +37,8 @@
         public RoundResponseDTO createRound(RoundRequestDTO dto) {
 //            Competition competition = competitionRepository.findById(dto.competitionId())
 //                    .orElseThrow(() -> new EntityNotFoundException("Competition not found with ID: " + dto.competitionId()));
+
+            validateUniqueMatches(dto.matches());
 
             List<Match> matches = dto.matches().stream()
                     .map(matchId -> matchRepository.findById((matchId))
@@ -94,6 +98,17 @@
             Round round = repository.findById(roundId)
                     .orElseThrow(() -> new EntityNotFoundException("Round not found with ID: " + roundId));
             repository.delete(round);
+        }
+
+        private void validateUniqueMatches(List<ObjectId> matchIds) {
+            Set<ObjectId> matchSet = new HashSet<>();
+
+            matchIds.stream()
+                    .filter(matchId -> !matchSet.add(matchId))
+                    .findFirst()
+                    .ifPresent(duplicateMatchId -> {
+                        throw new IllegalArgumentException("Duplicate match ID detected: " + duplicateMatchId);
+                    });
         }
 
     }

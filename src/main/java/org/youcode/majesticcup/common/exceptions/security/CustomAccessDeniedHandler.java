@@ -1,4 +1,4 @@
-package org.youcode.majesticcup.exceptions;
+package org.youcode.majesticcup.common.exceptions.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,4 +1,4 @@
-package org.youcode.majesticcup.exceptions;
+package org.youcode.majesticcup.common.exceptions.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

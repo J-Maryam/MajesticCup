@@ -25,7 +25,7 @@ public class Round {
     @Positive(message = "Round number must be a positive integer.")
     private int roundNumber;
 
-    @NotNull(message = "Competition ID cannot be null.")
+//    @NotNull(message = "Competition ID cannot be null.")
     private Competition competitionId;
 
     @NotEmpty(message = "Matches list cannot be empty.")

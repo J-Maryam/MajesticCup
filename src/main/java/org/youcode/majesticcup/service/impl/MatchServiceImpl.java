@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
+import org.youcode.majesticcup.common.exceptions.business.EntityNotFoundException;
 import org.youcode.majesticcup.dto.result.MatchResultDTO;
 import org.youcode.majesticcup.dto.result.StatisticDTO;
 import org.youcode.majesticcup.dto.match.MatchRequestDTO;

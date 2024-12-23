@@ -1,4 +1,4 @@
-package org.youcode.majesticcup.common.exceptions;
+package org.youcode.majesticcup.common.exceptions.business;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {

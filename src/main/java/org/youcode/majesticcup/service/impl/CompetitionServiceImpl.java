@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.youcode.majesticcup.common.exceptions.EntityNotFoundException;
+import org.youcode.majesticcup.common.exceptions.business.EntityNotFoundException;
 import org.youcode.majesticcup.dto.competition.CompetitionRequestDTO;
 import org.youcode.majesticcup.dto.competition.CompetitionResponseDTO;
 import org.youcode.majesticcup.mapper.CompetitionMapper;
@@ -16,7 +16,9 @@ import org.youcode.majesticcup.repository.RoundRepository;
 import org.youcode.majesticcup.repository.TeamRepository;
 import org.youcode.majesticcup.service.CompetitionService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -29,6 +31,9 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public CompetitionResponseDTO createCompetition(CompetitionRequestDTO dto) {
+        validateUniqueTeams(dto.teamIds());
+        validateUniqueRounds(dto.roundIds());
+
         List<Team> teams = dto.teamIds().stream()
                 .map(teamId -> teamRepository.findById(teamId)
                         .orElseThrow(() -> new EntityNotFoundException("Team not found with ID: " + teamId)))
@@ -53,6 +58,26 @@ public class CompetitionServiceImpl implements CompetitionService {
         Competition savedCompetition = repository.save(competition);
 
         return mapper.toDto(savedCompetition);
+    }
+
+    private void validateUniqueTeams(List<ObjectId> teamIds) {
+        Set<ObjectId> teamSet = new HashSet<>();
+        teamIds.stream()
+                .filter(teamId -> !teamSet.add(teamId))
+                .findFirst()
+                .ifPresent(duplicateTeamId -> {
+                    throw new IllegalArgumentException("Duplicate team ID detected: " + duplicateTeamId);
+                });
+    }
+
+    private void validateUniqueRounds(List<ObjectId> roundIds) {
+        Set<ObjectId> roundSet = new HashSet<>();
+        roundIds.stream()
+                .filter(roundId -> !roundSet.add(roundId))
+                .findFirst()
+                .ifPresent(duplicateRoundId -> {
+                    throw new IllegalArgumentException("Duplicate round ID detected: " + duplicateRoundId);
+                });
     }
 
     @Override

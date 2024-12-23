@@ -7,4 +7,5 @@ import org.youcode.majesticcup.model.collections.Team;
 
 @Repository
 public interface TeamRepository extends MongoRepository<Team, ObjectId> {
+    boolean existsByName(String name);
 }
